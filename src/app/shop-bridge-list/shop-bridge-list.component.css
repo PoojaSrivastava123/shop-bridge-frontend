@@ -1,0 +1,25 @@
+.add-item{
+    margin-bottom: 10px;
+}
+
+.card{
+    margin-top: 20px;
+}
+
+.parent{
+    width: 1000px;
+    height: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.child{
+    width: 500px;
+    height: 500px;
+}
+
+.card-body{
+    background: lavenderblush;
+}

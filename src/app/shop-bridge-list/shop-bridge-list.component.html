@@ -1,0 +1,120 @@
+<div class="container-fluid table-responsive">
+    <h4 class="page-title">
+        <i class="fas fa-home"></i> Shop Bridge
+    </h4>
+    <div class="card">
+        <div class="card-header">Shop Bridge List
+        </div>
+        <div class="card-body table-responsive">
+            <button type="button" class="btn btn-info add-item" data-toggle="modal" data-target="#addItemsModal"
+                (click)="resetModel()"><b>Add Items</b></button>
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Desciption</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let shopBridge of shopBridgeList">
+                        <td [routerLink]="['/home/item', shopBridge.id]"><a
+                                href="javascript:void(0)">{{shopBridge.name}}</a></td>
+                        <td>{{shopBridge.description}}</td>
+                        <td>{{shopBridge.price}}</td>
+                        <td><img [src]="shopBridge.image" height="100"></td>
+                        <td>
+                            <i class="far fa-trash-alt" data-toggle="modal" data-target="#deleteModal"
+                                (click)="itemId = shopBridge.id"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addItemsModal" tabindex="-1" role="dialog" aria-labelledby="addItemsModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemsModalLabel">Add Items</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetModel()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #itemCreate="ngForm" id="itemCreate">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Name</label>
+                            <input type="text" name="itemname" class="form-control" [(ngModel)]="shopBridge.name"
+                                minlength="2" pattern="^[a-zA-Z \'\-]+$" #itemname="ngModel" required>
+                            <div class="text-danger" *ngIf="itemname.errors?.pattern">* Only alphanumeric
+                                characters are allowed</div>
+                            <div class="text-danger" *ngIf="itemname.errors?.minlength && itemname.invalid">* Enter at
+                                least 2
+                                characters</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Description</label>
+                            <textarea type="text" name="description" class="form-control"
+                                [(ngModel)]="shopBridge.description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Price</label>
+                            <input type="number" name="price" class="form-control" [(ngModel)]="shopBridge.price"
+                             #price="ngModel" required>
+                            <div class="text-danger" *ngIf="price.invalid && price.touched && price.dirty">* Field is
+                                required</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Upload Image</label>
+                            <input type="file" id="uploadImage" accept ="image/*" class="form-control" (change)="onFileChanged($event)">
+                             <span *ngIf="message">{{message}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" [disabled]="!itemCreate.form.valid"
+                        (click)="saveItem()">Save</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal"
+                        (click)="resetModel()">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <h6>Are you sure you want delete item?</h6>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="deleteItem()">Yes</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close">No</button>
+            </div>
+        </div>
+    </div>
+</div>
